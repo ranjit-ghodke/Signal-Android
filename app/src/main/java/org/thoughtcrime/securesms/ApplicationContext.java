@@ -230,6 +230,8 @@ public class ApplicationContext extends MultiDexApplication implements AppForegr
       checkBuildExpiration();
     });
 
+    ApplicationDependencies.getFrameRateTracker().setUpFPSCounter();
+
     Log.d(TAG, "onStart() took " + (System.currentTimeMillis() - startTime) + " ms");
   }
 
