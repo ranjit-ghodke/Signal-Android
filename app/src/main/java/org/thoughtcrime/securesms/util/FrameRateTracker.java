@@ -99,7 +99,6 @@ public class FrameRateTracker {
 
     //Creating the custom textview
     tv = new TextView(context);
-    tv.setText("HELLO");
 
     //Calling the window manager to create the overlay
     WindowManager mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -127,23 +126,8 @@ public class FrameRateTracker {
   private final Choreographer.FrameCallback calculator = new Choreographer.FrameCallback() {
     @Override
     public void doFrame(long frameTimeNanos) {
-      long   elapsedNanos = frameTimeNanos - lastFrameTimeNanos;
-      double fps          = TimeUnit.SECONDS.toNanos(1) / (double) elapsedNanos;
-
       //Assign the value of fps to the textview
-      tv.setText(String.valueOf((int) (fps)));
-
-      if (elapsedNanos > badFrameThresholdNanos) {
-        if (consecutiveFrameWarnings < MAX_CONSECUTIVE_FRAME_LOGS) {
-          long droppedFrames = elapsedNanos / idealTimePerFrameNanos;
-          Log.w(TAG, String.format(Locale.ENGLISH, "Bad frame! Took %d ms (%d dropped frames, or %.2f FPS)", TimeUnit.NANOSECONDS.toMillis(elapsedNanos), droppedFrames, fps));
-          consecutiveFrameWarnings++;
-        }
-      } else {
-        consecutiveFrameWarnings = 0;
-      }
-
-      lastFrameTimeNanos = frameTimeNanos;
+      tv.setText(String.valueOf(frameTimeNanos));
       Choreographer.getInstance().postFrameCallback(this);
     }
   };
